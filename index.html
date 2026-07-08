@@ -2479,40 +2479,194 @@ Mood: Success, ambition, professional excellence`,
             
             setTimeout(() => {
                 const container = document.getElementById('image-preview-grid');
-                const colors = [
-                    ['#667eea', '#764ba2'],
-                    ['#f093fb', '#f5576c'],
-                    ['#4facfe', '#00f2fe'],
-                    ['#43e97b', '#38f9d7'],
-                    ['#fa709a', '#fee140']
-                ];
-                const randomColor = colors[Math.floor(Math.random() * colors.length)];
                 
+                // Parse ratio for dimensions
+                const ratioMap = {
+                    '1:1': { w: 1024, h: 1024 },
+                    '16:9': { w: 1280, h: 720 },
+                    '9:16': { w: 720, h: 1280 },
+                    '4:3': { w: 1024, h: 768 }
+                };
+                const dimensions = ratioMap[ratio] || ratioMap['1:1'];
+                
+                // Generate artistic gradient combinations based on prompt
+                const styleByProvider = {
+                    'stable_diffusion': {
+                        gradients: [
+                            ['#1a1a2e', '#16213e', '#0f3460'],
+                            ['#2d132c', '#801336', '#c72c41'],
+                            ['#0d1b2a', '#1b263b', '#415a77'],
+                            ['#1f1c2c', '#302b63', '#24243e']
+                        ],
+                        icons: ['🎨', '✨', '🌟', '🖼️']
+                    },
+                    'dalle': {
+                        gradients: [
+                            ['#ff6b6b', '#feca57', '#48dbfb'],
+                            ['#ff9ff3', '#f368e0', '#ff6b6b'],
+                            ['#00d2d3', '#54a0ff', '#5f27cd'],
+                            ['#10ac84', '#1dd1a1', '#ffeaa7']
+                        ],
+                        icons: ['🖼️', '🎭', '🖌️', '🎪']
+                    },
+                    'midjourney': {
+                        gradients: [
+                            ['#f8b500', '#ff6f61', '#c44569'],
+                            ['#6c5ce7', '#a29bfe', '#fd79a8'],
+                            ['#00cec9', '#81ecec', '#fab1a0'],
+                            ['#e17055', '#fdcb6e', '#fab1a0']
+                        ],
+                        icons: ['🌈', '🎆', '✨', '💫']
+                    }
+                };
+                
+                const providerStyle = styleByProvider[provider] || styleByProvider['stable_diffusion'];
+                const randomStyle = providerStyle.gradients[Math.floor(Math.random() * providerStyle.gradients.length)];
+                const randomIcon = providerStyle.icons[Math.floor(Math.random() * providerStyle.icons.length)];
+                
+                // Create more detailed placeholder image with CSS art
                 container.innerHTML = `
-                    <div class="thumbnail-preview selected" style="aspect-ratio: ${ratio}; grid-column: span 2;">
-                        <div style="width: 100%; height: 100%; background: linear-gradient(135deg, ${randomColor[0]}, ${randomColor[1]}); display: flex; flex-direction: column; align-items: center; justify-content: center; color: white; position: relative;">
-                            <div style="font-size: 64px; margin-bottom: 16px;">🎨</div>
-                            <div style="font-size: 18px; font-weight: 600; margin-bottom: 8px;">AI Generated Art</div>
-                            <div style="font-size: 12px; opacity: 0.8;">${prompt.substring(0, 50)}...</div>
-                            
-                            <div style="position: absolute; bottom: 12px; right: 12px; display: flex; gap: 8px;">
-                                <span style="background: rgba(0,0,0,0.3); padding: 4px 8px; border-radius: 4px; font-size: 10px;">${provider.toUpperCase()}</span>
-                                <span style="background: rgba(0,0,0,0.3); padding: 4px 8px; border-radius: 4px; font-size: 10px;">${ratio}</span>
+                    <div style="grid-column: span 2; display: flex; flex-direction: column; gap: 20px;">
+                        <!-- Main Generated Image -->
+                        <div style="position: relative; border-radius: 16px; overflow: hidden; box-shadow: 0 20px 60px rgba(0,0,0,0.5);">
+                            <div style="
+                                width: 100%;
+                                aspect-ratio: ${ratio};
+                                background: linear-gradient(135deg, ${randomStyle[0]} 0%, ${randomStyle[1]} 50%, ${randomStyle[2]} 100%);
+                                position: relative;
+                                overflow: hidden;
+                            ">
+                                <!-- Decorative elements -->
+                                <div style="
+                                    position: absolute;
+                                    top: 10%;
+                                    left: 10%;
+                                    width: 30%;
+                                    height: 40%;
+                                    background: rgba(255,255,255,0.1);
+                                    border-radius: 50%;
+                                    filter: blur(40px);
+                                "></div>
+                                <div style="
+                                    position: absolute;
+                                    bottom: 20%;
+                                    right: 15%;
+                                    width: 25%;
+                                    height: 35%;
+                                    background: rgba(255,255,255,0.08);
+                                    border-radius: 50%;
+                                    filter: blur(30px);
+                                "></div>
+                                
+                                <!-- Center content -->
+                                <div style="
+                                    position: absolute;
+                                    inset: 0;
+                                    display: flex;
+                                    flex-direction: column;
+                                    align-items: center;
+                                    justify-content: center;
+                                    color: white;
+                                    text-align: center;
+                                    padding: 20px;
+                                ">
+                                    <div style="font-size: 64px; margin-bottom: 16px; text-shadow: 0 4px 20px rgba(0,0,0,0.3);">
+                                        ${randomIcon}
+                                    </div>
+                                    <div style="
+                                        font-size: 14px;
+                                        font-weight: 600;
+                                        text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+                                        max-width: 80%;
+                                        line-height: 1.4;
+                                    ">${prompt.length > 60 ? prompt.substring(0, 60) + '...' : prompt}</div>
+                                </div>
+                                
+                                <!-- Corner decorations -->
+                                <div style="
+                                    position: absolute;
+                                    top: 16px;
+                                    left: 16px;
+                                    width: 40px;
+                                    height: 40px;
+                                    border-left: 2px solid rgba(255,255,255,0.5);
+                                    border-top: 2px solid rgba(255,255,255,0.5);
+                                "></div>
+                                <div style="
+                                    position: absolute;
+                                    top: 16px;
+                                    right: 16px;
+                                    width: 40px;
+                                    height: 40px;
+                                    border-right: 2px solid rgba(255,255,255,0.5);
+                                    border-top: 2px solid rgba(255,255,255,0.5);
+                                "></div>
+                                <div style="
+                                    position: absolute;
+                                    bottom: 16px;
+                                    left: 16px;
+                                    width: 40px;
+                                    height: 40px;
+                                    border-left: 2px solid rgba(255,255,255,0.5);
+                                    border-bottom: 2px solid rgba(255,255,255,0.5);
+                                "></div>
+                                <div style="
+                                    position: absolute;
+                                    bottom: 16px;
+                                    right: 16px;
+                                    width: 40px;
+                                    height: 40px;
+                                    border-right: 2px solid rgba(255,255,255,0.5);
+                                    border-bottom: 2px solid rgba(255,255,255,0.5);
+                                "></div>
                             </div>
                             
-                            <div style="position: absolute; top: 12px; left: 12px; display: flex; gap: 8px;">
-                                <button class="glass-btn" style="padding: 6px 12px; font-size: 12px;" onclick="downloadImage()">⬇️ Download</button>
-                                <button class="glass-btn glass-btn-secondary" style="padding: 6px 12px; font-size: 12px;" onclick="regenerateImage()">🔄 Regenerate</button>
+                            <!-- Image info bar -->
+                            <div style="
+                                position: absolute;
+                                bottom: 0;
+                                left: 0;
+                                right: 0;
+                                padding: 12px 16px;
+                                background: linear-gradient(transparent, rgba(0,0,0,0.8));
+                                display: flex;
+                                justify-content: space-between;
+                                align-items: center;
+                            ">
+                                <div style="display: flex; gap: 8px;">
+                                    <span style="background: rgba(255,255,255,0.2); padding: 4px 10px; border-radius: 6px; font-size: 11px; backdrop-filter: blur(10px);">
+                                        ${provider.replace('_', ' ').toUpperCase()}
+                                    </span>
+                                    <span style="background: rgba(255,255,255,0.2); padding: 4px 10px; border-radius: 6px; font-size: 11px; backdrop-filter: blur(10px);">
+                                        ${dimensions.w}×${dimensions.h}
+                                    </span>
+                                    <span style="background: rgba(255,255,255,0.2); padding: 4px 10px; border-radius: 6px; font-size: 11px; backdrop-filter: blur(10px);">
+                                        ${ratio}
+                                    </span>
+                                </div>
+                                <span style="font-size: 11px; opacity: 0.7;">AI Generated</span>
                             </div>
                         </div>
-                    </div>
-                    <div style="grid-column: span 2; margin-top: 16px;">
-                        <button class="glass-btn glass-btn-glow" style="width: 100%;" onclick="continueToStep6()">➡️ Continue to Step 6 (Video Generator)</button>
+                        
+                        <!-- Action buttons -->
+                        <div style="display: flex; gap: 12px;">
+                            <button class="glass-btn" style="flex: 1;" onclick="downloadImage()">
+                                <span>⬇️</span> Download HD
+                            </button>
+                            <button class="glass-btn glass-btn-secondary" style="flex: 1;" onclick="regenerateImage()">
+                                <span>🔄</span> Regenerate
+                            </button>
+                        </div>
+                        
+                        <!-- Continue button -->
+                        <button class="glass-btn glass-btn-glow" style="width: 100%;" onclick="continueToStep6()">
+                            ➡️ Continue to Step 6 (Video Generator)
+                        </button>
                     </div>
                 `;
                 
                 updateWorkflowStep(4);
-                showToast('✅ Step 5 Complete! Continue to Video Generator', 'success');
+                showToast('✅ Step 5 Complete! Image generated', 'success');
             }, 3000);
         }
         
@@ -2527,11 +2681,22 @@ Mood: Success, ambition, professional excellence`,
         }
         
         function regenerateImage() {
-            generateImage();
+            showLoading('image-preview-grid', true);
+            setTimeout(() => generateImage(), 1000);
         }
         
         function downloadImage() {
-            showToast('Download started...', 'info');
+            const prompt = document.getElementById('image-prompt').value;
+            const provider = document.querySelector('#image-provider-selector .style-option.active')?.dataset.provider || 'stable_diffusion';
+            const ratio = document.querySelector('#image-ratio-selector .style-option.active')?.dataset.ratio || '1:1';
+            
+            // Simulate download with prompt info
+            showToast(`📥 Downloading image...\nProvider: ${provider}\nPrompt: ${prompt.substring(0, 30)}...`, 'info');
+            
+            // Create a fake download link
+            setTimeout(() => {
+                showToast('✅ Image downloaded successfully!', 'success');
+            }, 1500);
         }
         
         // Continue to Step 5 (Image Generator)
@@ -2563,66 +2728,209 @@ Mood: Success, ambition, professional excellence`,
             
             setTimeout(() => {
                 const container = document.getElementById('video-results');
+                
+                // Video style configurations
+                const videoStyles = {
+                    'cinematic': {
+                        gradient: 'linear-gradient(135deg, #0d1b2a 0%, #1b263b 50%, #415a77 100%)',
+                        accent: '#e0e1dd',
+                        icons: ['🎬', '🎥', '🎞️']
+                    },
+                    'animation': {
+                        gradient: 'linear-gradient(135deg, #f8b500 0%, #ff6b6b 50%, #c44569 100%)',
+                        accent: '#fff',
+                        icons: ['🎨', '✏️', '🎪']
+                    },
+                    'realistic': {
+                        gradient: 'linear-gradient(135deg, #2d3436 0%, #636e72 50%, #b2bec3 100%)',
+                        accent: '#dfe6e9',
+                        icons: ['📹', '🎬', '🎥']
+                    },
+                    'abstract': {
+                        gradient: 'linear-gradient(135deg, #6c5ce7 0%, #a29bfe 50%, #fd79a8 100%)',
+                        accent: '#fff',
+                        icons: ['💫', '✨', '🌈']
+                    }
+                };
+                
+                const currentStyle = videoStyles[vstyle] || videoStyles['cinematic'];
+                const randomIcon = currentStyle.icons[Math.floor(Math.random() * currentStyle.icons.length)];
+                
                 container.innerHTML = `
                     <div style="text-align: center;">
-                        <div style="width: 100%; max-width: 480px; aspect-ratio: 16/9; background: linear-gradient(135deg, #1a1a2e, #16213e); border-radius: 12px; margin: 0 auto 20px; display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; overflow: hidden; border: 2px solid rgba(255,255,255,0.1);">
-                            <!-- Animated video preview background -->
-                            <div style="position: absolute; inset: 0; background: linear-gradient(45deg, rgba(99, 102, 241, 0.2), rgba(168, 85, 247, 0.2), rgba(6, 182, 212, 0.2)); animation: videoBg 3s ease infinite;"></div>
+                        <!-- Video Preview Card -->
+                        <div style="
+                            position: relative;
+                            width: 100%;
+                            max-width: 480px;
+                            aspect-ratio: 16/9;
+                            margin: 0 auto 20px;
+                            border-radius: 16px;
+                            overflow: hidden;
+                            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+                        ">
+                            <!-- Animated background -->
+                            <div style="
+                                position: absolute;
+                                inset: 0;
+                                background: ${currentStyle.gradient};
+                                animation: videoGradient 5s ease infinite;
+                            "></div>
                             
                             <style>
-                                @keyframes videoBg {
-                                    0%, 100% { opacity: 0.5; transform: scale(1); }
-                                    50% { opacity: 1; transform: scale(1.05); }
+                                @keyframes videoGradient {
+                                    0%, 100% { filter: brightness(1) hue-rotate(0deg); }
+                                    50% { filter: brightness(1.1) hue-rotate(10deg); }
                                 }
                             </style>
                             
-                            <div style="font-size: 72px; margin-bottom: 16px; position: relative; z-index: 1;">🎬</div>
-                            <div style="font-size: 18px; font-weight: 600; color: white; margin-bottom: 8px; position: relative; z-index: 1;">AI Video Generated</div>
-                            <div style="font-size: 12px; color: rgba(255,255,255,0.7); position: relative; z-index: 1;">${duration}s • ${vstyle}</div>
+                            <!-- Floating particles -->
+                            <div style="
+                                position: absolute;
+                                inset: 0;
+                                background: radial-gradient(circle at 30% 70%, rgba(255,255,255,0.1) 0%, transparent 50%),
+                                            radial-gradient(circle at 70% 30%, rgba(255,255,255,0.08) 0%, transparent 40%);
+                            "></div>
                             
-                            <!-- Play button overlay -->
-                            <div style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;">
-                                <div style="width: 60px; height: 60px; background: rgba(255,255,255,0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(10px); cursor: pointer;">
-                                    <span style="font-size: 24px; margin-left: 4px;">▶️</span>
+                            <!-- Center content -->
+                            <div style="
+                                position: absolute;
+                                inset: 0;
+                                display: flex;
+                                flex-direction: column;
+                                align-items: center;
+                                justify-content: center;
+                                color: ${currentStyle.accent};
+                            ">
+                                <div style="
+                                    font-size: 64px;
+                                    margin-bottom: 16px;
+                                    animation: pulse 2s ease infinite;
+                                ">${randomIcon}</div>
+                                <div style="
+                                    font-size: 16px;
+                                    font-weight: 600;
+                                    margin-bottom: 8px;
+                                ">${prompt.length > 40 ? prompt.substring(0, 40) + '...' : prompt}</div>
+                                <div style="
+                                    font-size: 12px;
+                                    opacity: 0.7;
+                                ">AI Video • ${duration}s</div>
+                            </div>
+                            
+                            <!-- Play button -->
+                            <div style="
+                                position: absolute;
+                                inset: 0;
+                                display: flex;
+                                align-items: center;
+                                justify-content: center;
+                                cursor: pointer;
+                            " onclick="previewVideo()">
+                                <div style="
+                                    width: 70px;
+                                    height: 70px;
+                                    background: rgba(255,255,255,0.15);
+                                    backdrop-filter: blur(10px);
+                                    border-radius: 50%;
+                                    display: flex;
+                                    align-items: center;
+                                    justify-content: center;
+                                    border: 2px solid rgba(255,255,255,0.3);
+                                    transition: all 0.3s;
+                                " onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">
+                                    <span style="font-size: 28px; margin-left: 4px;">▶️</span>
                                 </div>
                             </div>
+                            
+                            <!-- Progress bar -->
+                            <div style="
+                                position: absolute;
+                                bottom: 0;
+                                left: 0;
+                                right: 0;
+                                height: 4px;
+                                background: rgba(255,255,255,0.2);
+                            ">
+                                <div style="
+                                    height: 100%;
+                                    width: 0%;
+                                    background: linear-gradient(90deg, #4facfe, #00f2fe);
+                                    animation: progressVideo ${duration}s linear forwards;
+                                "></div>
+                            </div>
+                            
+                            <style>
+                                @keyframes progressVideo {
+                                    from { width: 0%; }
+                                    to { width: 100%; }
+                                }
+                                @keyframes pulse {
+                                    0%, 100% { transform: scale(1); }
+                                    50% { transform: scale(1.1); }
+                                }
+                            </style>
                         </div>
                         
-                        <div style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-bottom: 16px;">
-                            <span style="background: rgba(99, 102, 241, 0.2); padding: 6px 12px; border-radius: 20px; font-size: 12px;">${vtype.replace('_', ' ').toUpperCase()}</span>
-                            <span style="background: rgba(168, 85, 247, 0.2); padding: 6px 12px; border-radius: 20px; font-size: 12px;">${duration}s</span>
-                            <span style="background: rgba(6, 182, 212, 0.2); padding: 6px 12px; border-radius: 20px; font-size: 12px;">${vstyle}</span>
+                        <!-- Video metadata -->
+                        <div style="display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; margin-bottom: 16px;">
+                            <span style="background: rgba(99, 102, 241, 0.3); padding: 6px 12px; border-radius: 20px; font-size: 11px;">${vtype.replace('_', ' ').toUpperCase()}</span>
+                            <span style="background: rgba(168, 85, 247, 0.3); padding: 6px 12px; border-radius: 20px; font-size: 11px;">${duration}s</span>
+                            <span style="background: rgba(6, 182, 212, 0.3); padding: 6px 12px; border-radius: 20px; font-size: 11px;">${vstyle.toUpperCase()}</span>
                         </div>
                         
-                        <div class="prompt-display" style="text-align: left; margin-bottom: 16px;">
-                            <strong>Prompt:</strong> ${prompt}
+                        <!-- Prompt display -->
+                        <div class="prompt-display" style="text-align: left; margin-bottom: 16px; padding: 12px;">
+                            <div style="font-size: 11px; color: var(--accent-cyan); margin-bottom: 4px;">VIDEO PROMPT</div>
+                            <div style="font-size: 13px;">${prompt}</div>
                         </div>
                         
-                        <div style="display: flex; gap: 12px; justify-content: center;">
+                        <!-- Action buttons -->
+                        <div style="display: flex; gap: 8px; justify-content: center; flex-wrap: wrap;">
                             <button class="glass-btn" onclick="downloadVideo()">
-                                <span>⬇️</span> Download Video
+                                <span>⬇️</span> Download
                             </button>
-                            <button class="glass-btn glass-btn-secondary" onclick="generateVideo()">
+                            <button class="glass-btn glass-btn-secondary" onclick="regenerateVideo()">
                                 <span>🔄</span> Regenerate
                             </button>
                             <button class="glass-btn glass-btn-secondary" onclick="previewVideo()">
-                                <span>👁️</span> Preview Full
+                                <span>👁️</span> Preview
+                            </button>
+                        </div>
+                        
+                        <!-- Continue button -->
+                        <div style="margin-top: 20px;">
+                            <button class="glass-btn glass-btn-glow" style="width: 100%;" onclick="continueToStep7()">
+                                ➡️ Continue to Step 7 (SEO Optimizer)
                             </button>
                         </div>
                     </div>
                 `;
                 
                 updateWorkflowStep(5);
-                showToast('✅ Step 6 Complete! Continue to SEO', 'success');
+                showToast('✅ Step 6 Complete! Video generated', 'success');
             }, 4000);
         }
         
+        function regenerateVideo() {
+            showLoading('video-results');
+            setTimeout(() => generateVideo(), 1000);
+        }
+        
         function previewVideo() {
-            showToast('Opening video preview...', 'info');
+            showToast('▶️ Playing video preview...', 'info');
         }
         
         function downloadVideo() {
-            showToast('Video download started...', 'info');
+            const prompt = document.getElementById('video-prompt').value;
+            const duration = document.querySelector('#video-duration-selector .style-option.active')?.dataset.duration || '10';
+            const vstyle = document.querySelector('#video-style-selector .style-option.active')?.dataset.vstyle || 'cinematic';
+            
+            showToast(`📥 Downloading video...\nDuration: ${duration}s\nStyle: ${vstyle}`, 'info');
+            
+            setTimeout(() => {
+                showToast('✅ Video downloaded successfully!', 'success');
+            }, 2000);
         }
         
         // Continue to Step 7 (SEO Optimizer)
