@@ -582,6 +582,12 @@ body {
     gap: var(--spacing-xl);
 }
 
+.generator-section .thumbnail-section,
+.generator-section #image-generator-section,
+.generator-section #video-generator-section {
+    grid-column: span 2;
+}
+
 .generator-card {
     background: var(--glass-bg);
     backdrop-filter: blur(20px);
@@ -1023,11 +1029,17 @@ body {
     }
     
     .workflow-container {
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: repeat(3, 1fr);
     }
     
     .generator-section {
         grid-template-columns: 1fr;
+    }
+    
+    .generator-section .thumbnail-section,
+    .generator-section #image-generator-section,
+    .generator-section #video-generator-section {
+        grid-column: span 1;
     }
 }
 
@@ -1319,6 +1331,18 @@ body {
                     </a>
                 </li>
                 <li class="nav-item">
+                    <a href="#image-generator" class="nav-link" data-section="image-generator">
+                        <span class="nav-icon">🖼️</span>
+                        <span class="nav-text">Image Generator</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#video-generator" class="nav-link" data-section="video-generator">
+                        <span class="nav-icon">🎬</span>
+                        <span class="nav-text">Video Generator</span>
+                    </a>
+                </li>
+                <li class="nav-item">
                     <a href="#seo-optimizer" class="nav-link" data-section="seo-optimizer">
                         <span class="nav-icon">📊</span>
                         <span class="nav-text">SEO Optimizer</span>
@@ -1351,7 +1375,7 @@ body {
         </header>
         
         <!-- Workflow Progress -->
-        <section class="workflow-container">
+        <section class="workflow-container" style="grid-template-columns: repeat(7, 1fr);">
             <div class="workflow-step" data-step="1">
                 <div class="step-number">1</div>
                 <div class="step-icon">💡</div>
@@ -1378,6 +1402,18 @@ body {
             </div>
             <div class="workflow-step" data-step="5">
                 <div class="step-number">5</div>
+                <div class="step-icon">🖼️</div>
+                <div class="step-title">Image Gen</div>
+                <div class="step-description">AI image creation</div>
+            </div>
+            <div class="workflow-step" data-step="6">
+                <div class="step-number">6</div>
+                <div class="step-icon">🎬</div>
+                <div class="step-title">Video Gen</div>
+                <div class="step-description">AI video creation</div>
+            </div>
+            <div class="workflow-step" data-step="7">
+                <div class="step-number">7</div>
                 <div class="step-icon">📊</div>
                 <div class="step-title">SEO</div>
                 <div class="step-description">Optimize for algorithms</div>
@@ -1587,7 +1623,127 @@ body {
                 </div>
             </div>
             
-            <!-- WORKFLOW 5: SEO Optimizer -->
+            <!-- WORKFLOW 5: Image Generator -->
+            <div class="generator-card" id="image-generator-section">
+                <div class="generator-card-title">
+                    <div class="generator-card-icon">🖼️</div>
+                    Image Generator
+                    <span class="badge" style="margin-left: auto; background: linear-gradient(135deg, var(--accent-pink), var(--accent-orange));">NEW</span>
+                </div>
+                <p class="generator-card-desc">
+                    Generate gambar profesional menggunakan AI. Supports Stable Diffusion, DALL-E, 
+                    dan Midjourney-style prompts untuk berbagai use case.
+                </p>
+                
+                <div class="input-group">
+                    <label class="input-label">Deskripsi Gambar</label>
+                    <textarea id="image-prompt" class="glass-input" rows="3" 
+                              placeholder="Deskripsikan gambar yang ingin Anda buat..."></textarea>
+                </div>
+                
+                <div class="input-group">
+                    <label class="input-label">AI Provider</label>
+                    <div class="style-selector" id="image-provider-selector">
+                        <button class="style-option active" data-provider="stable_diffusion">Stable Diffusion</button>
+                        <button class="style-option" data-provider="dalle">DALL-E</button>
+                        <button class="style-option" data-provider="midjourney">Midjourney</button>
+                    </div>
+                </div>
+                
+                <div class="input-group">
+                    <label class="input-label">Aspect Ratio</label>
+                    <div class="style-selector" id="image-ratio-selector">
+                        <button class="style-option active" data-ratio="1:1">1:1 (Square)</button>
+                        <button class="style-option" data-ratio="16:9">16:9 (Landscape)</button>
+                        <button class="style-option" data-ratio="9:16">9:16 (Portrait)</button>
+                        <button class="style-option" data-ratio="4:3">4:3</button>
+                    </div>
+                </div>
+                
+                <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+                    <button class="glass-btn glass-btn-glow" onclick="generateImage()">
+                        <span>🎨</span> Generate Image
+                    </button>
+                    <button class="glass-btn glass-btn-secondary" onclick="regenerateImage()">
+                        <span>🔄</span> Regenerate
+                    </button>
+                </div>
+                
+                <div class="thumbnail-preview-grid" id="image-preview-grid" style="margin-top: 20px;">
+                    <div class="thumbnail-preview">
+                        <div class="thumbnail-placeholder">
+                            <div class="thumbnail-placeholder-icon">🖼️</div>
+                            <span>Generated Image</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- WORKFLOW 6: Video Generator -->
+            <div class="generator-card" id="video-generator-section">
+                <div class="generator-card-title">
+                    <div class="generator-card-icon">🎬</div>
+                    Video Generator
+                    <span class="badge" style="margin-left: auto; background: linear-gradient(135deg, var(--accent-pink), var(--accent-orange));">NEW</span>
+                </div>
+                <p class="generator-card-desc">
+                    Generate video content menggunakan AI. Supports text-to-video, 
+                    image-to-video, dan video editing dengan berbagai styles.
+                </p>
+                
+                <div class="input-group">
+                    <label class="input-label">Video Type</label>
+                    <div class="style-selector" id="video-type-selector">
+                        <button class="style-option active" data-vtype="text_to_video">Text to Video</button>
+                        <button class="style-option" data-vtype="image_to_video">Image to Video</button>
+                        <button class="style-option" data-vtype="video_edit">Video Edit</button>
+                    </div>
+                </div>
+                
+                <div class="input-group">
+                    <label class="input-label">Prompt / Description</label>
+                    <textarea id="video-prompt" class="glass-input" rows="3" 
+                              placeholder="Deskripsikan video yang ingin Anda buat..."></textarea>
+                </div>
+                
+                <div class="input-group">
+                    <label class="input-label">Duration</label>
+                    <div class="style-selector" id="video-duration-selector">
+                        <button class="style-option active" data-duration="5">5 seconds</button>
+                        <button class="style-option" data-duration="10">10 seconds</button>
+                        <button class="style-option" data-duration="15">15 seconds</button>
+                        <button class="style-option" data-duration="30">30 seconds</button>
+                    </div>
+                </div>
+                
+                <div class="input-group">
+                    <label class="input-label">Style</label>
+                    <div class="style-selector" id="video-style-selector">
+                        <button class="style-option active" data-vstyle="cinematic">Cinematic</button>
+                        <button class="style-option" data-vstyle="animation">Animation</button>
+                        <button class="style-option" data-vstyle="realistic">Realistic</button>
+                        <button class="style-option" data-vstyle="abstract">Abstract</button>
+                    </div>
+                </div>
+                
+                <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+                    <button class="glass-btn glass-btn-glow" onclick="generateVideo()">
+                        <span>🎬</span> Generate Video
+                    </button>
+                    <button class="glass-btn glass-btn-secondary" onclick="previewVideo()">
+                        <span>👁️</span> Preview
+                    </button>
+                </div>
+                
+                <div class="results-area" id="video-results" style="margin-top: 20px;">
+                    <div style="text-align: center; color: var(--text-muted); padding: 40px;">
+                        <div style="font-size: 48px; margin-bottom: 16px;">🎥</div>
+                        <p>Video preview akan muncul di sini</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- WORKFLOW 7: SEO Optimizer -->
             <div class="generator-card" id="seo-optimizer-section">
                 <div class="generator-card-title">
                     <div class="generator-card-icon">📊</div>
@@ -2205,6 +2361,147 @@ Mood: Success, ambition, professional excellence</div>
                 
                 showToast('Tags berhasil di-generate!', 'success');
             }, 1500);
+        }
+        
+        // ============================================
+        // IMAGE GENERATOR
+        // ============================================
+        
+        function generateImage() {
+            const prompt = document.getElementById('image-prompt').value.trim();
+            if (!prompt) {
+                showToast('Masukkan deskripsi gambar terlebih dahulu', 'warning');
+                return;
+            }
+            
+            const provider = document.querySelector('#image-provider-selector .style-option.active')?.dataset.provider || 'stable_diffusion';
+            const ratio = document.querySelector('#image-ratio-selector .style-option.active')?.dataset.ratio || '1:1';
+            
+            showLoading('image-preview-grid', true);
+            
+            setTimeout(() => {
+                const container = document.getElementById('image-preview-grid');
+                const colors = [
+                    ['#667eea', '#764ba2'],
+                    ['#f093fb', '#f5576c'],
+                    ['#4facfe', '#00f2fe'],
+                    ['#43e97b', '#38f9d7'],
+                    ['#fa709a', '#fee140']
+                ];
+                const randomColor = colors[Math.floor(Math.random() * colors.length)];
+                
+                container.innerHTML = `
+                    <div class="thumbnail-preview selected" style="aspect-ratio: ${ratio}; grid-column: span 2;">
+                        <div style="width: 100%; height: 100%; background: linear-gradient(135deg, ${randomColor[0]}, ${randomColor[1]}); display: flex; flex-direction: column; align-items: center; justify-content: center; color: white; position: relative;">
+                            <div style="font-size: 64px; margin-bottom: 16px;">🎨</div>
+                            <div style="font-size: 18px; font-weight: 600; margin-bottom: 8px;">AI Generated Art</div>
+                            <div style="font-size: 12px; opacity: 0.8;">${prompt.substring(0, 50)}...</div>
+                            
+                            <div style="position: absolute; bottom: 12px; right: 12px; display: flex; gap: 8px;">
+                                <span style="background: rgba(0,0,0,0.3); padding: 4px 8px; border-radius: 4px; font-size: 10px;">${provider.toUpperCase()}</span>
+                                <span style="background: rgba(0,0,0,0.3); padding: 4px 8px; border-radius: 4px; font-size: 10px;">${ratio}</span>
+                            </div>
+                            
+                            <div style="position: absolute; top: 12px; left: 12px; display: flex; gap: 8px;">
+                                <button class="glass-btn" style="padding: 6px 12px; font-size: 12px;" onclick="downloadImage()">⬇️ Download</button>
+                                <button class="glass-btn glass-btn-secondary" style="padding: 6px 12px; font-size: 12px;" onclick="regenerateImage()">🔄 Regenerate</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                updateWorkflowStep(5);
+                showToast('Gambar berhasil di-generate!', 'success');
+            }, 3000);
+        }
+        
+        function regenerateImage() {
+            generateImage();
+        }
+        
+        function downloadImage() {
+            showToast('Download started...', 'info');
+        }
+        
+        // ============================================
+        // VIDEO GENERATOR
+        // ============================================
+        
+        function generateVideo() {
+            const prompt = document.getElementById('video-prompt').value.trim();
+            if (!prompt) {
+                showToast('Masukkan deskripsi video terlebih dahulu', 'warning');
+                return;
+            }
+            
+            const vtype = document.querySelector('#video-type-selector .style-option.active')?.dataset.vtype || 'text_to_video';
+            const duration = document.querySelector('#video-duration-selector .style-option.active')?.dataset.duration || '10';
+            const vstyle = document.querySelector('#video-style-selector .style-option.active')?.dataset.vstyle || 'cinematic';
+            
+            showLoading('video-results');
+            
+            setTimeout(() => {
+                const container = document.getElementById('video-results');
+                container.innerHTML = `
+                    <div style="text-align: center;">
+                        <div style="width: 100%; max-width: 480px; aspect-ratio: 16/9; background: linear-gradient(135deg, #1a1a2e, #16213e); border-radius: 12px; margin: 0 auto 20px; display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; overflow: hidden; border: 2px solid rgba(255,255,255,0.1);">
+                            <!-- Animated video preview background -->
+                            <div style="position: absolute; inset: 0; background: linear-gradient(45deg, rgba(99, 102, 241, 0.2), rgba(168, 85, 247, 0.2), rgba(6, 182, 212, 0.2)); animation: videoBg 3s ease infinite;"></div>
+                            
+                            <style>
+                                @keyframes videoBg {
+                                    0%, 100% { opacity: 0.5; transform: scale(1); }
+                                    50% { opacity: 1; transform: scale(1.05); }
+                                }
+                            </style>
+                            
+                            <div style="font-size: 72px; margin-bottom: 16px; position: relative; z-index: 1;">🎬</div>
+                            <div style="font-size: 18px; font-weight: 600; color: white; margin-bottom: 8px; position: relative; z-index: 1;">AI Video Generated</div>
+                            <div style="font-size: 12px; color: rgba(255,255,255,0.7); position: relative; z-index: 1;">${duration}s • ${vstyle}</div>
+                            
+                            <!-- Play button overlay -->
+                            <div style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;">
+                                <div style="width: 60px; height: 60px; background: rgba(255,255,255,0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(10px); cursor: pointer;">
+                                    <span style="font-size: 24px; margin-left: 4px;">▶️</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-bottom: 16px;">
+                            <span style="background: rgba(99, 102, 241, 0.2); padding: 6px 12px; border-radius: 20px; font-size: 12px;">${vtype.replace('_', ' ').toUpperCase()}</span>
+                            <span style="background: rgba(168, 85, 247, 0.2); padding: 6px 12px; border-radius: 20px; font-size: 12px;">${duration}s</span>
+                            <span style="background: rgba(6, 182, 212, 0.2); padding: 6px 12px; border-radius: 20px; font-size: 12px;">${vstyle}</span>
+                        </div>
+                        
+                        <div class="prompt-display" style="text-align: left; margin-bottom: 16px;">
+                            <strong>Prompt:</strong> ${prompt}
+                        </div>
+                        
+                        <div style="display: flex; gap: 12px; justify-content: center;">
+                            <button class="glass-btn" onclick="downloadVideo()">
+                                <span>⬇️</span> Download Video
+                            </button>
+                            <button class="glass-btn glass-btn-secondary" onclick="generateVideo()">
+                                <span>🔄</span> Regenerate
+                            </button>
+                            <button class="glass-btn glass-btn-secondary" onclick="previewVideo()">
+                                <span>👁️</span> Preview Full
+                            </button>
+                        </div>
+                    </div>
+                `;
+                
+                updateWorkflowStep(6);
+                showToast('Video berhasil di-generate!', 'success');
+            }, 4000);
+        }
+        
+        function previewVideo() {
+            showToast('Opening video preview...', 'info');
+        }
+        
+        function downloadVideo() {
+            showToast('Video download started...', 'info');
         }
         
         // ============================================
