@@ -1,5 +1,8 @@
 # ⚡ Content Generator All-in-One Dashboard
 
+> **Created by Antono**
+
+
 ![Dark Glassmorphism UI](https://img.shields.io/badge/UI-Dark%20Glassmorphism-1a1a2e?style=for-the-badge)
 ![Laravel](https://img.shields.io/badge/Laravel-PHP-FF2D20?style=for-the-badge&logo=laravel)
 ![Gemini AI](https://img.shields.io/badge/AI-Google%20Gemini-4285F4?style=for-the-badge&logo=google)
