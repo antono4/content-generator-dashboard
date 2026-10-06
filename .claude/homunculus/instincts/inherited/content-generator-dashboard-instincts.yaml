@@ -1,0 +1,280 @@
+# Instincts generated from https://github.com/antono4/content-generator-dashboard
+# Generated: 2026-07-08T02:19:29.203Z
+# Version: 2.0
+# NOTE: This file supplements (does not replace) any existing curated instincts.
+# High-confidence manually curated instincts should be preserved alongside these.
+
+---
+id: content-generator-dashboard-commit-conventional
+trigger: "when writing a commit message"
+confidence: 0.85
+domain: git
+source: repo-analysis
+source_repo: https://github.com/antono4/content-generator-dashboard
+---
+
+# Content Generator Dashboard Commit Conventional
+
+## Action
+
+Use conventional commit format with prefixes: docs
+
+## Evidence
+
+- 1 commits analyzed
+- Detected conventional commit pattern
+- Examples: docs: Add README, LICENSE and .gitignore
+
+---
+id: content-generator-dashboard-commit-length
+trigger: "when writing a commit message"
+confidence: 0.6
+domain: git
+source: repo-analysis
+source_repo: https://github.com/antono4/content-generator-dashboard
+---
+
+# Content Generator Dashboard Commit Length
+
+## Action
+
+Keep commit messages concise (~40 characters)
+
+## Evidence
+
+- Average commit message length: 40 chars
+- Based on 1 commits
+
+---
+id: content-generator-dashboard-naming-files
+trigger: "when creating a new file"
+confidence: 0.8
+domain: code-style
+source: repo-analysis
+source_repo: https://github.com/antono4/content-generator-dashboard
+---
+
+# Content Generator Dashboard Naming Files
+
+## Action
+
+Use PascalCase naming convention
+
+## Evidence
+
+- Analyzed file naming patterns in repository
+- Dominant pattern: PascalCase
+
+---
+id: content-generator-dashboard-import-relative
+trigger: "when importing modules"
+confidence: 0.75
+domain: code-style
+source: repo-analysis
+source_repo: https://github.com/antono4/content-generator-dashboard
+---
+
+# Content Generator Dashboard Import Relative
+
+## Action
+
+Use relative imports for project files
+
+## Evidence
+
+- Import analysis shows relative import pattern
+- Example: import { x } from '../lib/x'
+
+---
+id: content-generator-dashboard-export-style
+trigger: "when exporting from a module"
+confidence: 0.7
+domain: code-style
+source: repo-analysis
+source_repo: https://github.com/antono4/content-generator-dashboard
+---
+
+# Content Generator Dashboard Export Style
+
+## Action
+
+Prefer named exports
+
+## Evidence
+
+- Export pattern analysis
+- Dominant style: named
+
+---
+id: content-generator-dashboard-test-separate
+trigger: "when writing tests"
+confidence: 0.8
+domain: testing
+source: repo-analysis
+source_repo: https://github.com/antono4/content-generator-dashboard
+---
+
+# Content Generator Dashboard Test Separate
+
+## Action
+
+Place tests in the tests/ or __tests__/ directory, mirroring src structure
+
+## Evidence
+
+- Separate test directory pattern detected
+- Tests live in dedicated test folders
+
+---
+id: content-generator-dashboard-instinct-file-naming
+trigger: "When creating a new file"
+confidence: 0.9
+domain: code-style
+source: repo-analysis
+source_repo: antono4/content-generator-dashboard
+---
+
+# Content Generator Dashboard Instinct File Naming
+
+## Action
+
+Name the file using PascalCase
+
+## Evidence
+
+- Pattern in namingConventions.files: PascalCase
+
+---
+id: content-generator-dashboard-instinct-function-naming
+trigger: "When defining a new function"
+confidence: 0.9
+domain: code-style
+source: repo-analysis
+source_repo: antono4/content-generator-dashboard
+---
+
+# Content Generator Dashboard Instinct Function Naming
+
+## Action
+
+Name the function using camelCase
+
+## Evidence
+
+- Pattern in namingConventions.functions: camelCase
+
+---
+id: content-generator-dashboard-instinct-class-naming
+trigger: "When defining a new class"
+confidence: 0.9
+domain: code-style
+source: repo-analysis
+source_repo: antono4/content-generator-dashboard
+---
+
+# Content Generator Dashboard Instinct Class Naming
+
+## Action
+
+Name the class using PascalCase
+
+## Evidence
+
+- Pattern in namingConventions.classes: PascalCase
+
+---
+id: content-generator-dashboard-instinct-constant-naming
+trigger: "When declaring a constant"
+confidence: 0.9
+domain: code-style
+source: repo-analysis
+source_repo: antono4/content-generator-dashboard
+---
+
+# Content Generator Dashboard Instinct Constant Naming
+
+## Action
+
+Name the constant using SCREAMING_SNAKE_CASE
+
+## Evidence
+
+- Pattern in namingConventions.constants: SCREAMING_SNAKE_CASE
+
+---
+id: content-generator-dashboard-instinct-import-style
+trigger: "When importing modules"
+confidence: 0.8
+domain: code-style
+source: repo-analysis
+source_repo: antono4/content-generator-dashboard
+---
+
+# Content Generator Dashboard Instinct Import Style
+
+## Action
+
+Use relative import paths
+
+## Evidence
+
+- Pattern in importStyle: relative
+
+---
+id: content-generator-dashboard-instinct-export-style
+trigger: "When exporting modules or members"
+confidence: 0.8
+domain: code-style
+source: repo-analysis
+source_repo: antono4/content-generator-dashboard
+---
+
+# Content Generator Dashboard Instinct Export Style
+
+## Action
+
+Use named exports
+
+## Evidence
+
+- Pattern in exportStyle: named
+
+---
+id: content-generator-dashboard-instinct-test-location
+trigger: "When adding new tests"
+confidence: 0.8
+domain: testing
+source: repo-analysis
+source_repo: antono4/content-generator-dashboard
+---
+
+# Content Generator Dashboard Instinct Test Location
+
+## Action
+
+Place test files in a separate directory from source files
+
+## Evidence
+
+- Pattern in architecture.folderStructure.testLocation: separate
+
+---
+id: content-generator-dashboard-instinct-git-commit-format
+trigger: "When making a commit"
+confidence: 0.9
+domain: git
+source: repo-analysis
+source_repo: antono4/content-generator-dashboard
+---
+
+# Content Generator Dashboard Instinct Git Commit Format
+
+## Action
+
+Use the conventional commit format with a 'docs' prefix for documentation changes
+
+## Evidence
+
+- Pattern in commits.prefixes: docs
+- Seen in commit: docs: Add README, LICENSE and .gitignore
+
